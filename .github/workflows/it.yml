@@ -1,0 +1,18 @@
+name: Platform Integration Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  integration-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - id: Checkout repo
+      uses: actions/checkout@v2
+    - name: Run integration tests
+      run: | 
+        cd src/main/python
+        python3 it.py
