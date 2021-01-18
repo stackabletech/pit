@@ -1,0 +1,4 @@
+= PIT - Platform Integration Test
+
+Performs nightly integration tests of the Stackable platform.
+
