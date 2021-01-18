@@ -1,0 +1,17 @@
+name: Incubator
+
+on:
+  schedule:
+    - cron:  '0 20 * * *'
+
+jobs:
+
+  integration-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - id: keygen
+      name: generate key
+      run: | 
+        ssh-keygen -b 2048 -t rsa -f ./mysshkey -q -N ""
