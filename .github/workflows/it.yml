@@ -17,4 +17,4 @@ jobs:
       name: Run integration tests
       run: | 
         cd src/main/python
-        python3 it.py
+        python3 it.py http://t2.stackable.tech
