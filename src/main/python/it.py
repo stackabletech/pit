@@ -1,10 +1,17 @@
-# import the standard JSON parser
+import sys
 import json
-
-# import the REST library
 import requests
 
 print('Starting integration test...')
+
+if(len(sys.argv) < 2):
+    print('T2 URL param missing')
+    exit(1)
+
+t2_base_url = sys.argv[1]
+print(f"Using T2 at {t2_base_url}")
+exit()
+
 
 resp = requests.get('http://t2.stackable.tech/api/clusters')
 if resp.status_code != 200:
