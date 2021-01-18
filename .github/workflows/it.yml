@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - id: Checkout repo
+    - id: checkout-repo
+      name: Checkout repo
       uses: actions/checkout@v2
-    - name: Run integration tests
+    - id: run-integration-tests
+      name: Run integration tests
       run: | 
         cd src/main/python
         python3 it.py
