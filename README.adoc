@@ -1,4 +1,6 @@
 = PIT - Platform Integration Test
 
+image:https://github.com/stackabletech/pit/workflows/Platform%20Integration%20Tests/badge.svg[link="https://github.com/stackabletech/pit/actions"]
+
 Performs nightly integration tests of the Stackable platform.
 
