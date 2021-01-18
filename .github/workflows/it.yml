@@ -16,5 +16,10 @@ jobs:
     - id: run-integration-tests
       name: Run integration tests
       run: | 
-        cd src/main/python
-        python3 it.py http://t2.stackable.tech
+        python3 src/main/python/it.py http://t2.stackable.tech
+    - id: archive-report
+      name: Archive test report
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-report
+        path: output/report*.adoc

@@ -2,6 +2,7 @@ import sys
 import json
 import requests
 import time
+import datetime
 
 print('Starting integration test...')
 
@@ -39,6 +40,15 @@ def update_cluster(cluster):
         return cluster
     return updated_cluster
 
+def write_report(id):
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d--%H-%M-%S')
+    f = open(f"output/report-{timestamp}.adoc", "a")
+    f.write(f"= Integration Test Report\n")
+    f.write("\n")
+    f.write("This is the report for an integration test...\n")
+    f.write(f"We used cluster {id}...\n")
+    f.close()
+
 cluster = create_cluster()
 
 if(not cluster):
@@ -67,5 +77,8 @@ if(not deletion_successful):
     print(f"Cluster '{cluster['id']}' could not be deleted. ")
     exit(1)
 print(f"Removal of cluster '{cluster['id']}' successful.")
+
+write_report(cluster['id'])
+
 print('SUCCESS')
 print('integration test finished.')
