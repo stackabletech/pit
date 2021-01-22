@@ -17,6 +17,8 @@ jobs:
       uses: actions/checkout@v2
     - id: run-integration-tests
       name: Run integration tests
+      env:
+        T2_TOKEN: ${{ secrets.T2_TOKEN }}
       run: | 
         python3 src/main/python/it.py http://t2.stackable.tech
     - id: archive-report

@@ -1,8 +1,13 @@
+import os
 import sys
 import json
 import requests
 import time
 import datetime
+
+print(f"Das TOKEN ist {os.environ['HOME']}")
+print(f"Das TOKEN ist {os.environ['PATH']}")
+print(f"Das TOKEN ist {os.environ['T2_TOKEN']}")
 
 print('Starting integration test...')
 
