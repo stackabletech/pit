@@ -15,7 +15,7 @@ t2_token = sys.argv[2]
 print(f"Using T2 at {t2_base_url} with Token {t2_token}")
 
 def create_cluster():
-    response = requests.post(f"{t2_base_url}/api/clusters")
+    response = requests.post(f"{t2_base_url}/api/clusters", headers={ "t2-token": t2_token })
     if(response.status_code != 200):
         print(f"API call to create cluster returned error code {response.status_code}");
         return None
