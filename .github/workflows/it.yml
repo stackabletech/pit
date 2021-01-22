@@ -20,7 +20,7 @@ jobs:
       env:
         T2_TOKEN: ${{ secrets.T2_TOKEN }}
       run: | 
-        python3 src/main/python/it.py http://t2.stackable.tech "$T2_TOKEN"
+        python3 src/main/python/it.py https://t2.stackable.tech "$T2_TOKEN"
     - id: archive-report
       name: Archive test report
       uses: actions/upload-artifact@v2
