@@ -1,22 +1,18 @@
-import os
 import sys
 import json
 import requests
 import time
 import datetime
 
-print(f"Das TOKEN ist {os.environ['HOME']}")
-print(f"Das TOKEN ist {os.environ['PATH']}")
-print(f"Das TOKEN ist {os.environ['T2_TOKEN']}")
-
 print('Starting integration test...')
 
-if(len(sys.argv) < 2):
-    print('T2 URL param missing')
+if(len(sys.argv) < 3):
+    print('T2 URL and/or T2 TOKEN missing')
     exit(1)
 
 t2_base_url = sys.argv[1]
-print(f"Using T2 at {t2_base_url}")
+t2_token = sys.argv[2]
+print(f"Using T2 at {t2_base_url} with Token {t2_token}")
 
 def create_cluster():
     response = requests.post(f"{t2_base_url}/api/clusters")
