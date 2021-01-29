@@ -22,14 +22,14 @@ def create_cluster():
     return response.json()
 
 def delete_cluster(id):
-    response = requests.delete(f"{t2_base_url}/api/clusters/{id}")
+    response = requests.delete(f"{t2_base_url}/api/clusters/{id}", headers={ "t2-token": t2_token })
     if(response.status_code != 200):
         print(f"API call to delete cluster returned error code {response.status_code}");
         return False
     return True
 
 def get_cluster(id):
-    response = requests.get(f"{t2_base_url}/api/clusters/{id}")
+    response = requests.get(f"{t2_base_url}/api/clusters/{id}", headers={ "t2-token": t2_token })
     if(response.status_code != 200):
         print(f"API call to get cluster returned error code {response.status_code}");
         return None
@@ -62,8 +62,8 @@ print(f"Created cluster '{cluster['id']}'. Waiting for cluster to be ready...")
 time.sleep(5)
 
 cluster = update_cluster(cluster)
-while(cluster['status'] != 'RUNNING'):
-    print(f"Cluster is still in state '{cluster['status']}'', waiting for it to be in state 'RUNNING'")
+while(cluster['status']['state'] != 'RUNNING'):
+    print(f"Cluster is still in state '{cluster['status']['state']}'', waiting for it to be in state 'RUNNING'")
     time.sleep(5)
     cluster = update_cluster(cluster)
 
