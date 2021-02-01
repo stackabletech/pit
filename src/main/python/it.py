@@ -1,5 +1,5 @@
 import sys
-import json
+import os
 import requests
 import time
 import datetime
@@ -41,13 +41,27 @@ def update_cluster(cluster):
         return cluster
     return updated_cluster
 
-def write_report(id):
+def integration_test(cluster):
+    test_result = {}
+    ip = cluster['ipV4Address']
+    ping_response = os.system(f"ping -c 10 {ip}")
+    time.sleep(10)
+    ping_response = os.system(f"ping -c 10 {ip}")
+    if(ping_response == 0):
+        test_result['ping'] = 'SUCCESS'
+    else:
+        test_result['ping'] = 'ERROR'
+    return test_result
+
+def write_report(cluster, test_result):
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d--%H-%M-%S')
     f = open(f"output/report-{timestamp}.adoc", "a")
     f.write(f"= Integration Test Report\n")
     f.write("\n")
     f.write("This is the report for an integration test...\n")
-    f.write(f"We used cluster {id}...\n")
+    f.write(f"We used cluster {cluster['id']} with IP {cluster['ipV4Address']} ...\n")
+    f.write("\n")
+    f.write(f"PING: {test_result['ping']}")
     f.close()
 
 cluster = create_cluster()
@@ -55,8 +69,6 @@ cluster = create_cluster()
 if(not cluster):
     print("Failed to create cluster via API.")
     exit(1)
-
-# TODO timeout for spin up once we deal with real clusters...
 
 print(f"Created cluster '{cluster['id']}'. Waiting for cluster to be ready...")
 time.sleep(5)
@@ -68,7 +80,11 @@ while(cluster['status']['state'] != 'RUNNING'):
     cluster = update_cluster(cluster)
 
 print(f"Cluster '{cluster['id']}' is up and running. Performing tests...")
+
 time.sleep(10)
+
+test_result = integration_test(cluster);
+
 print(f"Integration tests on cluster '{cluster['id']}' successful!")
 
 
@@ -79,7 +95,7 @@ if(not deletion_successful):
     exit(1)
 print(f"Removal of cluster '{cluster['id']}' successful.")
 
-write_report(cluster['id'])
+write_report(cluster, test_result)
 
 print('SUCCESS')
 print('integration test finished.')
