@@ -15,14 +15,18 @@ jobs:
     - id: checkout-repo
       name: Checkout repo
       uses: actions/checkout@v2
+    - id: generate-ssh-key
+      name: Generate SSH key to access cluster
+      run: | 
+        ssh-keygen -b 2048 -t rsa -f ./mysshkey -q -N ""
     - id: launch-cluster
       name: Launch cluster via T2 API
       env:
         T2_TOKEN: ${{ secrets.T2_TOKEN }}
       run: | 
         python3 src/main/python/it.py https://t2.stackable.tech "$T2_TOKEN"
-    - id: ping-cluster
-      name: Ping newly launched cluster as a smoke test
+    - id: print-cluster-information
+      name: Print out information about cluster
       run: | 
         echo "UUID:"
         cat cluster_uuid
@@ -30,12 +34,7 @@ jobs:
         echo "IP:"
         cat cluster_ip
         echo
-        ping -c 4 `cat cluster_ip`
-        echo
-    - id: ping-wrong
-      name: Ping that always fails as a test
-      run: | 
-        ping -c 1 www.thisurlforsuredoesnotexistiassume.com
+        cat mysshkey.pub
         echo
     # - id: archive-report
     #   name: Archive test report
