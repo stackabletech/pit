@@ -83,7 +83,7 @@ while(cluster['status']['state'] != 'RUNNING'):
     time.sleep(5)
     cluster = update_cluster(cluster)
 
-print(f"Cluster '{cluster['id']}' is up and running. Performing tests...")
+print(f"Cluster '{cluster['id']}' is up and running.")
 
 time.sleep(10)
 

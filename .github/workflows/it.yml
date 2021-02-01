@@ -30,6 +30,12 @@ jobs:
         echo "IP:"
         cat cluster_ip
         echo
+        ping -c 4 `cat cluster_ip`
+        echo
+    - id: ping-wrong
+      name: Ping that always fails as a test
+      run: | 
+        ping -c 1 www.thisurlforsuredoesnotexistiassume.com
         echo
     # - id: archive-report
     #   name: Archive test report
