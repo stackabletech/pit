@@ -15,15 +15,25 @@ jobs:
     - id: checkout-repo
       name: Checkout repo
       uses: actions/checkout@v2
-    - id: run-integration-tests
-      name: Run integration tests
+    - id: launch-cluster
+      name: Launch cluster via T2 API
       env:
         T2_TOKEN: ${{ secrets.T2_TOKEN }}
       run: | 
         python3 src/main/python/it.py https://t2.stackable.tech "$T2_TOKEN"
-    - id: archive-report
-      name: Archive test report
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-report
-        path: output/report*.adoc
+    - id: ping-cluster
+      name: Ping newly launched cluster as a smoke test
+      run: | 
+        echo "UUID:"
+        cat cluster_uuid
+        echo
+        echo "IP:"
+        cat cluster_ip
+        echo
+        echo
+    # - id: archive-report
+    #   name: Archive test report
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: test-report
+    #     path: output/report*.adoc

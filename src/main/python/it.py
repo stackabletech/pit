@@ -41,32 +41,32 @@ def update_cluster(cluster):
         return cluster
     return updated_cluster
 
-def integration_test(cluster):
-    test_result = {}
-    ip = cluster['ipV4Address']
-    ping_response = os.system(f"ping -c 10 {ip}")
-    time.sleep(10)
-    ping_response = os.system(f"ping -c 10 {ip}")
-    time.sleep(10)
-    ping_response = os.system(f"ping -c 10 {ip}")
-    time.sleep(10)
-    ping_response = os.system(f"ping -c 10 {ip}")
-    if(ping_response == 0):
-        test_result['ping'] = 'SUCCESS'
-    else:
-        test_result['ping'] = 'ERROR'
-    return test_result
+# def integration_test(cluster):
+#     test_result = {}
+#     ip = cluster['ipV4Address']
+#     ping_response = os.system(f"ping -c 10 {ip}")
+#     time.sleep(10)
+#     ping_response = os.system(f"ping -c 10 {ip}")
+#     time.sleep(10)
+#     ping_response = os.system(f"ping -c 10 {ip}")
+#     time.sleep(10)
+#     ping_response = os.system(f"ping -c 10 {ip}")
+#     if(ping_response == 0):
+#         test_result['ping'] = 'SUCCESS'
+#     else:
+#         test_result['ping'] = 'ERROR'
+#     return test_result
 
-def write_report(cluster, test_result):
-    timestamp = datetime.datetime.now().strftime('%Y-%m-%d--%H-%M-%S')
-    f = open(f"output/report-{timestamp}.adoc", "a")
-    f.write(f"= Integration Test Report\n")
-    f.write("\n")
-    f.write("This is the report for an integration test...\n")
-    f.write(f"We used cluster {cluster['id']} with IP {cluster['ipV4Address']} ...\n")
-    f.write("\n")
-    f.write(f"PING: {test_result['ping']}")
-    f.close()
+# def write_report(cluster, test_result):
+#     timestamp = datetime.datetime.now().strftime('%Y-%m-%d--%H-%M-%S')
+#     f = open(f"output/report-{timestamp}.adoc", "a")
+#     f.write(f"= Integration Test Report\n")
+#     f.write("\n")
+#     f.write("This is the report for an integration test...\n")
+#     f.write(f"We used cluster {cluster['id']} with IP {cluster['ipV4Address']} ...\n")
+#     f.write("\n")
+#     f.write(f"PING: {test_result['ping']}")
+#     f.close()
 
 cluster = create_cluster()
 
@@ -87,19 +87,25 @@ print(f"Cluster '{cluster['id']}' is up and running. Performing tests...")
 
 time.sleep(10)
 
-test_result = integration_test(cluster);
+with open("cluster_ip", "w") as ip_text_file:
+    print(cluster['ipV4Address'], file=ip_text_file)
 
-print(f"Integration tests on cluster '{cluster['id']}' successful!")
+with open("cluster_uuid", "w") as uuid_text_file:
+    print(cluster['id'], file=uuid_text_file)
+
+# test_result = integration_test(cluster);
+
+# print(f"Integration tests on cluster '{cluster['id']}' successful!")
 
 
-print(f"Removing cluster '{cluster['id']}'...")
-deletion_successful = delete_cluster(cluster['id'])
-if(not deletion_successful):
-    print(f"Cluster '{cluster['id']}' could not be deleted. ")
-    exit(1)
-print(f"Removal of cluster '{cluster['id']}' successful.")
+# print(f"Removing cluster '{cluster['id']}'...")
+# deletion_successful = delete_cluster(cluster['id'])
+# if(not deletion_successful):
+#     print(f"Cluster '{cluster['id']}' could not be deleted. ")
+#     exit(1)
+# print(f"Removal of cluster '{cluster['id']}' successful.")
 
-write_report(cluster, test_result)
+# write_report(cluster, test_result)
 
-print('SUCCESS')
-print('integration test finished.')
+# print('SUCCESS')
+# print('integration test finished.')
