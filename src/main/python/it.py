@@ -47,6 +47,10 @@ def integration_test(cluster):
     ping_response = os.system(f"ping -c 10 {ip}")
     time.sleep(10)
     ping_response = os.system(f"ping -c 10 {ip}")
+    time.sleep(10)
+    ping_response = os.system(f"ping -c 10 {ip}")
+    time.sleep(10)
+    ping_response = os.system(f"ping -c 10 {ip}")
     if(ping_response == 0):
         test_result['ping'] = 'SUCCESS'
     else:
