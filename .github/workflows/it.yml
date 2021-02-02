@@ -24,7 +24,7 @@ jobs:
       env:
         T2_TOKEN: ${{ secrets.T2_TOKEN }}
       run: | 
-        python3 src/main/python/it.py https://t2.stackable.tech "$T2_TOKEN"
+        python3 src/main/python/launch.py https://t2.stackable.tech "$T2_TOKEN" mysshkey.pub
     - id: print-cluster-information
       name: Print out information about cluster
       run: | 
@@ -36,6 +36,16 @@ jobs:
         echo
         cat mysshkey.pub
         echo
+    - id: test-ssh-connect
+      name: Test SSH connect to cluster
+      run: | 
+        ssh -o "StrictHostKeyChecking no" -q root@`cat cluster_ip` exit
+    - id: terminate-cluster
+      name: Terminate cluster via T2 API
+      env:
+        T2_TOKEN: ${{ secrets.T2_TOKEN }}
+      run: | 
+        python3 src/main/python/terminate.py https://t2.stackable.tech "$T2_TOKEN" `cat cluster_uuid`
     # - id: archive-report
     #   name: Archive test report
     #   uses: actions/upload-artifact@v2
