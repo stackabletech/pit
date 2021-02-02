@@ -19,12 +19,12 @@ jobs:
       name: Generate SSH key to access cluster
       run: | 
         ssh-keygen -b 2048 -t rsa -f ./mysshkey -q -N ""
-    - id: launch-cluster
-      name: Launch cluster via T2 API
-      env:
-        T2_TOKEN: ${{ secrets.T2_TOKEN }}
-      run: | 
-        python3 src/main/python/launch.py https://t2.stackable.tech "$T2_TOKEN" mysshkey.pub
+    # - id: launch-cluster
+    #   name: Launch cluster via T2 API
+    #   env:
+    #     T2_TOKEN: ${{ secrets.T2_TOKEN }}
+    #   run: | 
+    #     python3 src/main/python/launch.py https://t2.stackable.tech "$T2_TOKEN" mysshkey.pub
     - id: print-cluster-information
       name: Print out information about cluster
       run: | 
@@ -36,16 +36,17 @@ jobs:
         echo
         cat mysshkey.pub
         echo
-    - id: test-ssh-connect
-      name: Test SSH connect to cluster
-      run: | 
-        ssh -o "StrictHostKeyChecking no" -i mysshkey -q root@`cat cluster_ip` exit
-    - id: terminate-cluster
-      name: Terminate cluster via T2 API
-      env:
-        T2_TOKEN: ${{ secrets.T2_TOKEN }}
-      run: | 
-        python3 src/main/python/terminate.py https://t2.stackable.tech "$T2_TOKEN" `cat cluster_uuid`
+        ls -la
+    # - id: test-ssh-connect
+    #   name: Test SSH connect to cluster
+    #   run: | 
+    #     ssh -o "StrictHostKeyChecking no" -i mysshkey -q root@`cat cluster_ip` exit
+    # - id: terminate-cluster
+    #   name: Terminate cluster via T2 API
+    #   env:
+    #     T2_TOKEN: ${{ secrets.T2_TOKEN }}
+    #   run: | 
+    #     python3 src/main/python/terminate.py https://t2.stackable.tech "$T2_TOKEN" `cat cluster_uuid`
     # - id: archive-report
     #   name: Archive test report
     #   uses: actions/upload-artifact@v2
