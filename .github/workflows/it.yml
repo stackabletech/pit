@@ -39,7 +39,7 @@ jobs:
     - id: test-ssh-connect
       name: Test SSH connect to cluster
       run: | 
-        ssh -o "StrictHostKeyChecking no" -i mysshkey root@`cat cluster_ip` exit
+        curl `cat cluster_uuid`.stackable.tech
     - id: terminate-cluster
       name: Terminate cluster via T2 API
       env:
