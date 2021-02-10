@@ -36,10 +36,10 @@ jobs:
         echo
         cat mysshkey.pub
         echo
-    - id: test-ssh-connect
-      name: Test SSH connect to cluster
+    - id: test-connect-via-curl
+      name: Test connect to cluster via curl
       run: | 
-        curl `cat cluster_uuid`.stackable.tech
+        curl `cat cluster_uuid | cut -c -8`.stackable.tech
     - id: terminate-cluster
       name: Terminate cluster via T2 API
       env:
