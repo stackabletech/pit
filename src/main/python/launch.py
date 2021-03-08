@@ -20,9 +20,43 @@ def read_ssh_key():
         return base64.b64encode(sshfile.readlines()[0].encode("utf-8")).decode('utf-8')
 
 def create_cluster():
-    response = requests.post(f"{t2_base_url}/api/clusters", headers={ "t2-token": t2_token, "Content-Type": "application/json" })
+
+    payload = {
+        "apiVersion": "t2.stackable.tech/v1",
+        "kind": "Infra",
+        "template": "demo-centos-7",
+        "metadata": {
+            "name": "stackable-demo",
+            "description" : "This is the cluster I want!"
+        },
+        "domain": "stackable.demo",
+        "sshKeys": [
+            read_ssh_key()
+        ],
+        "spec": {
+            "region": "de/fra",
+            "nodes" : {
+            "master": {
+                "numberOfNodes": 1,
+                "numberOfCores": 2,
+                "memoryMb": 1024,
+                "diskType": "HDD",
+                "diskSizeGb" : 15
+            },
+            "worker": {
+                "numberOfNodes": 2,
+                "numberOfCores": 2,
+                "memoryMb": 1024,
+                "diskType": "HDD",
+                "diskSizeGb" : 50
+            }
+            }
+        }
+    }
+
+    response = requests.post(f"{t2_base_url}/api/clusters", json=payload, headers={ "t2-token": t2_token, "Content-Type": "application/json" })
     if(response.status_code != 200):
-        print(f"API call to create cluster returned error code {response.status_code}")
+        print(f"API call to create cluster returned error code {response}")
         return None
     return response.json()
 
