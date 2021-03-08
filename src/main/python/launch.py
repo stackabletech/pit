@@ -20,16 +20,16 @@ def read_ssh_key():
         return base64.b64encode(sshfile.readlines()[0].encode("utf-8")).decode('utf-8')
 
 def create_cluster():
-    response = requests.post(f"{t2_base_url}/api/clusters", headers={ "t2-token": t2_token})
+    response = requests.post(f"{t2_base_url}/api/clusters", headers={ "t2-token": t2_token, "Content-Type": "application/json" })
     if(response.status_code != 200):
-        print(f"API call to create cluster returned error code {response.status_code}");
+        print(f"API call to create cluster returned error code {response.status_code}")
         return None
     return response.json()
 
 def get_cluster(id):
     response = requests.get(f"{t2_base_url}/api/clusters/{id}", headers={ "t2-token": t2_token })
     if(response.status_code != 200):
-        print(f"API call to get cluster returned error code {response.status_code}");
+        print(f"API call to get cluster returned error code {response.status_code}")
         return None
     return response.json()
 
