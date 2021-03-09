@@ -30,9 +30,7 @@ def create_cluster():
             "description" : "This is the cluster I want!"
         },
         "domain": "stackable.demo",
-        "sshKeys": [
-            read_ssh_key()
-        ],
+        "sshKeys": [],
         "spec": {
             "region": "de/fra",
             "nodes" : {
